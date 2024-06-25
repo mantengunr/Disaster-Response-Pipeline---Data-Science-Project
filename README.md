@@ -1,6 +1,9 @@
 # Disaster Response Pipeline - Data Science Project
-This project looks at analyzing disaster data from Appen(formerly Figure 8) to build a model for an API that classifies disaster messages.
 
+## Project Description
+This project focuses on utilizing an Extract, Transform, and Load (ETL) pipeline to process pre-labeled tweets and text messages related to real-life disasters from Appen (formerly Figure 8). The goal is to develop a supervised machine learning model using Natural Language Processing (NLP) techniques to classify these disaster messages. This classification will help disaster response teams to efficiently filter and prioritize relevant messages, ensuring timely responses from various emergency units.
+
+## Repository (Folders and Files)
 The repository is comprised of data, models, and app folders.
 
     - The data folder has raw data (disaster_massegaes.csv and disaster_categories.csv), data wrangling and database creating python script (process_data.py) and the procsses data database (DisasterResponse.db).
@@ -13,7 +16,7 @@ The repository is comprised of data, models, and app folders.
 Below are the step-by-step instructions to run the ETL & ML Pipeline, and Web application.
 
 
-### Instructions:
+## Project Testing (Demo) Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
