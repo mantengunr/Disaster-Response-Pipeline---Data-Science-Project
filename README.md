@@ -3,11 +3,11 @@ This project looks at analyzing disaster data from Appen(formerly Figure 8) to b
 
 The repository is comprised of data, models, and app folders.
 
-    - The data folder has raw data (disaster_massegaes.csv and disaster_categories.csv), data wrangling and database creating python script (process_data.py) and the procsses data database (DisasterResponse).
+    - The data folder has raw data (disaster_massegaes.csv and disaster_categories.csv), data wrangling and database creating python script (process_data.py) and the procsses data database (DisasterResponse.db).
     
     - The models folder has python script (train_classifier.py) that get the data from the database and use it to create and evaluate the text classification machine learning model.
     
-    - The app folder has a python script that runs the web application for text classification and results visualization
+    - The app folder has a python script (run.py) that runs the web application for text classification and results visualization
 
 
 Below are the step-by-step instructions to run the ETL & ML Pipeline, and Web application.
