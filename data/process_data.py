@@ -28,6 +28,11 @@ def load_data(messages_filepath, categories_filepath):
     for column in categories:
         categories[column] = categories[column].apply(lambda x: x[-1]) # setting each value to be the last character of the string
         categories[column] = categories[column].astype(int) # convert column from string to numeric
+        # Check if there are any values equal to 2
+        if (categories[column] == 2).any():
+           # Drop observations with value 2
+           categories = categories[categories[column] != 2]
+            
     df = pd.concat([messages, categories], axis=1)     
     return df
 
