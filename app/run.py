@@ -15,6 +15,16 @@ from sqlalchemy import create_engine
 app = Flask(__name__)
 
 def tokenize(text):
+    """
+    Tokenizes input text and returns a list of clean tokens.
+
+    Args:
+        text (str): The input text to be tokenized.
+
+    Returns:
+        list: A list of clean tokens.
+
+    """
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -33,12 +43,6 @@ df = pd.read_sql_table('DisasterResponse', engine)
 # load model
 model = joblib.load("../models/classifier.pkl")
 
-# load model model = joblib.load("../models/classifier.pkl")
-#    print("Model loaded successfully!")
-#except Exception as e:
-#    print(f"Error loading model: {e}")
-
-
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
@@ -50,27 +54,51 @@ def index():
     genre_names = list(genre_counts.index)
     
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
+    # Assuming you have a DataFrame `df` with your data
+    category_names = df.columns[4:]  # Adjust the index based on your DataFrame structure
+    category_counts = df[category_names].sum().sort_values(ascending=False)
+    
     graphs = [
-        {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
-
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
-                }
+    {
+        'data': [
+            Bar(
+                x=genre_names,
+                y=genre_counts
+            )
+        ],
+        'layout': {
+            'title': 'Distribution of Message Genres',
+            'yaxis': {
+                'title': "Count"
+            },
+            'xaxis': {
+                'title': "Genre"
             }
         }
-    ]
+    },
+    {
+        'data': [
+            Bar(
+                x=category_counts.index,
+                y=category_counts.values
+            )
+        ],
+        'layout': {
+            'title': 'Distribution of Message Categories',
+            'yaxis': {
+                'title': "Count"
+            },
+            'xaxis': {
+            'title': {
+               'text': "Category",
+                'standoff':200  # Increase the standoff to push the title lower
+               },
+                'tickangle': -45  # Rotate x-axis labels for better readability
+            }
+        }
+    }
+   ]
+ 
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]

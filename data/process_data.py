@@ -6,6 +6,17 @@ import sqlite3
 from sqlalchemy import create_engine, inspect, MetaData
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Loads and merges the messages and categories datasets, and performs necessary data transformations.
+
+    Args:
+        messages_filepath (str): The file path to the messages dataset.
+        categories_filepath (str): The file path to the categories dataset.
+
+    Returns:
+        pandas.DataFrame: The merged dataframe containing messages and categories.
+
+    """
     messages = pd.read_csv(messages_filepath) # load messages dataset
     categories = pd.read_csv(categories_filepath) # load categories dataset
     categories = categories['categories'].str.split(';', expand=True) # creating a dataframe of the 36 individual category columns
@@ -22,10 +33,28 @@ def load_data(messages_filepath, categories_filepath):
 
 # Cleaning the loaded data
 def clean_data(df):
+    """
+    Cleans the input dataframe by dropping duplicate rows.
+
+    Args:
+        df (pandas.DataFrame): The input dataframe to be cleaned.
+
+    Returns:
+        pandas.DataFrame: The cleaned dataframe with duplicate rows removed.
+
+    """
     df = df.drop_duplicates() # dropping duplicates
     return df
 
 def save_data(df, database_filename):
+    """
+    Saves the input dataframe to a SQLite database.
+
+    Args:
+        df (pandas.DataFrame): The input dataframe to be saved.
+        database_filename (str): The file path of the SQLite database.
+
+    """
     engine = create_engine('sqlite:///'+database_filename) # Creating a database engine
     df.to_sql('DisasterResponse', engine, index=False, if_exists='replace') # Saveing a pandas DataFrame (df) to a table named 'DisasterResponse' in the SQLite database
 

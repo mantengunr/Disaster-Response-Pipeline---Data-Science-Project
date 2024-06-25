@@ -29,6 +29,16 @@ url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-
 
 # Define a function to data
 def load_data(database_filepath):
+    """
+    Loads data from a SQLite database and prepares it for machine learning.
+
+    Args:
+        database_filepath (str): The file path of the SQLite database.
+
+    Returns:
+        tuple: A tuple containing the feature (X), target variables (Y), and category names.
+
+    """
     engine = create_engine('sqlite:///'+database_filepath) # Creating a database engine to connect to the SQLite database
     query = "SELECT * FROM DisasterResponse" # Defining a SQL query to select all rows from the 'DisasterResponse' table
     df = pd.read_sql(query, engine) # Reading the data from the 'DisasterResponse' table into a pandas DataFrame
@@ -42,6 +52,16 @@ def load_data(database_filepath):
 
 # Define a function to tokenize text
 def tokenize(text):
+    """
+    Tokenizes the input text by replacing URLs, removing non-alphanumeric characters, and lemmatizing the tokens.
+
+    Args:
+        text (str): The input text to be tokenized.
+
+    Returns:
+        list: A list of clean tokens.
+
+    """
     detected_urls = re.findall(url_regex, text) # Find all URLs in the text using a regular expression pattern
     
     # Iterate over each detected URL
@@ -55,6 +75,13 @@ def tokenize(text):
 
 # Define a function to build the model
 def build_model():
+    """
+    Builds a machine learning pipeline for text classification.
+
+    Returns:
+        sklearn.pipeline.Pipeline: The machine learning pipeline.
+
+    """
     # Creating a pipeline for text classification
     pipeline = Pipeline([
         # Step 1: Convert text into a matrix of token counts using CountVectorizer
@@ -69,6 +96,19 @@ def build_model():
 
 # Define a function to evaluate the performance of a model on the test set
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    Evaluates the performance of a machine learning model on the test set and generates a classification report for each category.
+
+    Args:
+        model: The trained machine learning model.
+        X_test (pandas.DataFrame): The feature values of the test set.
+        Y_test (pandas.DataFrame): The target variables of the test set.
+        category_names (list): The list of category names.
+
+    Returns:
+        None
+
+    """
     # Make predictions on the test set
     y_pred = model.predict(X_test)
     
@@ -82,7 +122,17 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 # Define a function to save the trained model to a file
 def save_model(model, model_filepath):
-    # Save the model using the joblib library
+    """
+    Saves the trained model to a file using the joblib library.
+
+    Args:
+        model: The trained machine learning model.
+        model_filepath (str): The file path to save the model.
+
+    Returns:
+        None
+
+    """
     joblib.dump(model, model_filepath)
 
 def main():
